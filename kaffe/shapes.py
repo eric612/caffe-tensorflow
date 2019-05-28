@@ -39,7 +39,10 @@ def shape_scalar(node):
 def shape_data(node):
     if node.output_shape:
         # Old-style input specification
-        return node.output_shape
+        val = node.output_shape
+        if len(val) < 4:
+           return list(val) + [1] * (4 - len(val))
+        return val
     try:
         # New-style input specification
         return map(int, node.parameters.shape[0].dim)
@@ -53,6 +56,9 @@ def shape_data(node):
         raise KaffeError('Cannot determine dimensions of data layer.\n'
                          'See comments in function shape_data for more info.')
 
+def shape_reshape(node):
+    dims = node.parameters.shape.dim
+    return TensorShape(dims[0], dims[1], dims[2], dims[3])
 
 def shape_mem_data(node):
     params = node.parameters
@@ -81,3 +87,11 @@ def shape_pool(node):
 def shape_inner_product(node):
     input_shape = node.get_only_parent().output_shape
     return TensorShape(input_shape.batch_size, node.layer.parameters.num_output, 1, 1)
+    
+def shape_updample(node):
+    assert len(node.parents) > 0
+    output_shape = node.parents[0].output_shape
+    #print(output_shape.width,'-------------------------')
+    #output_shape.width = output_shape.width*2
+    #output_shape.height = output_shape.height*2
+    return TensorShape(output_shape.batch_size, output_shape.channels, output_shape.height*2, output_shape.width*2)
