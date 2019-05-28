@@ -4,14 +4,9 @@ Convert [Caffe](https://github.com/BVLC/caffe/) models to [TensorFlow](https://g
 
 ## Usage
 
-Run `convert.py` to convert an existing Caffe model to TensorFlow.
+python convert.py mobilenet_yolov3_lite_deploy.prototxt --caffemodel mobilenet_yolov3_lite_deploy.caffemodel --standalone-output-path out
 
-Make sure you're using the latest Caffe format (see the notes section for more info).
-
-The output consists of two files:
-
-1. A data file (in NumPy's native format) containing the model's learned parameters.
-2. A Python class that constructs the model's graph.
+* tested tensorflow version :1.10.1
 
 ### Examples
 
