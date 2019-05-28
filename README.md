@@ -4,7 +4,9 @@ Convert [Caffe](https://github.com/BVLC/caffe/) models to [TensorFlow](https://g
 
 ## Usage
 
+```
 python convert.py mobilenet_yolov3_lite_deploy.prototxt --caffemodel mobilenet_yolov3_lite_deploy.caffemodel --standalone-output-path out
+```
 
 * tested tensorflow version :1.10.1
 
